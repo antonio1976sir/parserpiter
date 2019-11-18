@@ -99,14 +99,20 @@ function formfid() {
 function getimg() {
 
     var imgs = [];
-    var j = 0;
+    var j
+    var cnt;
+    $.indexedDB("parserpiter").objectStore("arenda_records").count().done(function(result){
+                cnt=result;
+                j=0;})
+    
     $.indexedDB("parserpiter").objectStore("arenda_records").each(function(item) {
 
         var newitem = item.value;
         var newitemkey = item.key;
-        if (item.value.imgs_link !== undefined && item.value.list_imgs === undefined) {
+        if (item.value.imgs_link !== undefined //&& item.value.list_imgs === undefined
+           ) {
             //img present
-            ($.get('https://internet-piter.ru' + item.value.imgs_link, function(data) {
+            $.get('https://internet-piter.ru' + item.value.imgs_link, function(data) {
                 imgs = [];
                 var brg = $(data).find(".link_block .swiper-wrapper img").length;
                 if (brg > 0) {
@@ -119,7 +125,7 @@ function getimg() {
                         else
                             var img = j1.attr('src').split("&");
 
-                        var file = "internet-piter.ru/photos/" + img[1].replace("ff=", "") + img[0].replace("lupa_min.php?fn=", "");
+                        var file = "ap78.ru/photos/" + img[1].replace("ff=", "") + img[0].replace("lupa_min.php?fn=", "");
 
                         imgs.push(file);
                     })
@@ -132,26 +138,48 @@ function getimg() {
                     // alert("end bargain");     
                 }
 
-            }).done(function() {
-                j = j + 1;
+            })
+            .done(function() {
                 console.log("success" + '-' + newitemkey + ' ' + newitem.imgs_link);
-            }).fail(function(errorThrown) {
-                j = j + 1;
+            })
+            .fail(function(errorThrown) {
                 console.log(errorThrown);
                 console.log("error" + '-' + newitemkey + ' ' + newitem.imgs_link);
-            }).always(function() {
+            })
+            .always(function() {
+                j=j+1;
                 $.indexedDB("parserpiter").objectStore("arenda_records").put(newitem, newitemkey).then(function() {
-                    console.log(j + '-' + '(https://internet-piter.ru' + newitem.imgs_link + ') ' + newitemkey + ' ' + newitem.list_imgs);
+                    
+                    console.log(j + '-' + '(https://ap78.ru' + newitem.imgs_link + ') ' + newitemkey + ' ' + newitem.list_imgs);
+           // jQuery("[name='getimg']").attr("value","Процесс сбора запущен "+j+" из "+cnt);                
+           // if (j>=cnt) { 
+           //      jQuery("[name='getimg']").attr("value", "Картинки собраны. The end!!!");
+           //             }
+                    
+
                 });
-            }));
+                jQuery("[name='getimg']").attr("value","Процесс сбора запущен "+j+" из "+cnt);                
+            if (j>=cnt) { 
+                 jQuery("[name='getimg']").attr("value", "Картинки собраны. The end!!!");
+                        }
+
+            }) //always
+            
             //get
 
-        }
+        } else {j=j+1;
+        jQuery("[name='getimg']").attr("value","Процесс сбора запущен "+j+" из "+cnt);                
+            if (j>=cnt) { 
+                 jQuery("[name='getimg']").attr("value", "Картинки собраны. The end!!!");
+                        }
+                }
         //if img present
 
-    }).then(function() {
+    }) 
+      //each 
+     .done(function() {
         jQuery("[name='getimg']").attr("value", "Картинки собраны. The end!!!");
-    })
+     })
     //$.indexedDB("parserpiter").objectStore("arenda_records").each
 
 }
@@ -225,6 +253,8 @@ function parsing_page() {
                         dattime: j.find(".td-date-color").html().split('<br>')[1].trim() + ' ' + j.find(".td-date-color").html().split('<br>')[0].trim(),
                         district: j.find(".tdm_rn").text().trim(),
                         street_house: j.find(".tdm_02").html().split('<br>')[1].trim(),
+                        geo1:j.find(".td-nakarte-color").attr("href").match(/(geo(1||2)=[\d.]*)/g)[0],
+                        geo2:j.find(".td-nakarte-color").attr("href").match(/(geo(1||2)=[\d.]*)/g)[1],
                         metro: j.find(".tdm_03").text().trim(),
                         total_square: j.find(".tdm_041").text().trim(),
                         using_square: j.find(".tdm_042").text().trim(),
