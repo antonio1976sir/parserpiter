@@ -7,7 +7,7 @@
 // @grant        GM_getResourceText
 // @resource     jQuery https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
 // @resource     idb http://nparashuram.com/jquery-indexeddb/dist/jquery.indexeddb.js
-// @resource     parser https://github.com/antonio1976sir/parserpiter/blob/master/parser-piter.user.js
+// @resource     parser https://github.com/antonio1976sir/parserpiter/master/parser-piter.user.js
 // @match        https://*.pin7.ru/*
 // @match        https://*.arenda-piter.ru/*
 // @match        https://*.internet-piter.ru/*
