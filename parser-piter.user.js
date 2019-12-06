@@ -246,7 +246,7 @@ function formfid() {
     */
         res = res + '<Building><FloorsCount>' + rec.floor.split("/")[1] + '</FloorsCount></Building>';
         //КУ в доп описании
-        if (rec.dops !== undefined && rec.dops.match(/КУ\s+\d*/)[0].length > 0) {
+        if (rec.dops !== undefined && rec.dops.match(/КУ\s+\d*/)!=null) {
             //КУ указано в доп описании 
             res = res + '<BargainTerms><Price>' + rec.price + '</Price>\n';
             res = res + '<UtilitiesTerms><IncludedInPrice>false</IncludedInPrice>\n'
