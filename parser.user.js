@@ -243,7 +243,8 @@ mywindow.document.close();})\
                                                                                                                                         formyandexfid();"></div>\
                                           <div><input type="button" value="перейти к записи №" name="gotorec" OnClick="gotorec(jQuery(\'[name=keyidvalue]\')[0].value)"><input type="text" name="keyidvalue" width="50px"></div>\
                                           </div>\
-                                            <div>риэлтор<input type="text" id="rieltor"> телефон<input type="phone" id="phone"></div> ');
+                                            <div>риэлтор<input type="text" id="rieltor"> телефон<input type="phone" id="phone"></div>\
+<div>Последнее обновление от 07.12.2019 20:06</div>');
 
   }
 
