@@ -7,7 +7,7 @@
 // @grant        GM_getResourceText
 // @resource     jQuery https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
 // @resource     idb http://nparashuram.com/jquery-indexeddb/dist/jquery.indexeddb.js
-// @resource     parser https://github.com/antonio1976sir/parserpiter/raw/master/parser-piter.user.js
+// @resource     parser file:///c:/js/parser-piter.user.js
 //file:///c:/js/parser-piter.user.js
 //https://github.com/antonio1976sir/parserpiter/raw/master/parser-piter.user.js
 // @match        https://*.pin7.ru/*
@@ -218,8 +218,10 @@ mywindow.document.write("<html><head><title>Предварительный пр�
 mywindow.document.write("</title></head><body>");\
 var ttxText="<table width=\'100%\' border=\'1\' cellspacing=\'1\' cellpadding=\'1\'>";\
 $.indexedDB("parserpiter").objectStore("arenda_records").each(function(item)\
-                                             {ttxText=ttxText+(JSON.stringify(item.value)+" ").replace(/({\"id\":\"?)(.+)(\"?})/g,(match,p1,p2,p3)=>"<tr><td>"+p2+"</td></tr>").replace(/\"?,\"[a-z0-9-_]+\":\"?/g,"</td><td>");}).then(function(){console.dir(ttxText);\
+                                             {ttxText=ttxText+(JSON.stringify(item.value)+" ").replace(/({\"id\":\"?)(.+)(\"?})/g,(match,p1,p2,p3)=>"<tr><td>"+p2+"</td></tr>").replace(/\"?,\"[a-z0-9-_]+\":\"?/g,"</td><td>");}).then(function(){console.dir("table");\
 ttxText=ttxText+"</table>";\
+ttxText=ttxText.replace(/([>,]?)(ap78.+?.jpg?)([,<"]?)/g,(match,p1,p2,p3)=>p1+"<img src=\'http://"+p2+"\'></img>"+p3);\
+console.dir(ttxText);\
 mywindow.document.write(ttxText);\
 mywindow.document.write("Это статичный текст");\
 mywindow.document.write("</body></html>");\
@@ -233,10 +235,15 @@ mywindow.document.close();})\
                                           <div><input type="button" value="Автоматический сбор данных " name="getdata" OnClick="init_parsing();"></div>\
                                           <div><input type="button" value="Собрать картинки и проверить актуальность" name="getimg" OnClick="getimg();"></div>\
                                           <div><input type="button" value="Предварительный просмотр" name="preview" OnClick="preview();"></div>\
-                                          <div><input type="button" value="Создать фид для циан" name="formfid" OnClick="formfid();"></div>\
-                                          <div><input type="button" value="Создать фид для yandex" name="yandexfid" OnClick="formyandexfid();"></div>\
+                                          <div><input type="button" value="Создать фид для циан" name="formfid" OnClick="if (jQuery(\'[id=rieltor]\').val()!=\'\') {agentname=jQuery(\'[id=rieltor]\').val();}\
+                                                                                                                         if (jQuery(\'[id=phone]\').val()!=\'\') {phone=jQuery(\'[id=phone]\').val();}\
+                                                                                                                                        formfid();"></div>\
+                                          <div><input type="button" value="Создать фид для yandex" name="yandexfid" OnClick="if (jQuery(\'[id=rieltor]\').val()!=\'\') {agentname=jQuery(\'[id=rieltor]\').val();}\
+                                                                                                                             if (jQuery(\'[id=phone]\').val()!=\'\') {phone=jQuery(\'[id=phone]\').val();}\
+                                                                                                                                        formyandexfid();"></div>\
                                           <div><input type="button" value="перейти к записи №" name="gotorec" OnClick="gotorec(jQuery(\'[name=keyidvalue]\')[0].value)"><input type="text" name="keyidvalue" width="50px"></div>\
-                                          </div>');
+                                          </div>\
+                                            <div>риэлтор<input type="text" id="rieltor"> телефон<input type="phone" id="phone"></div> ');
 
   }
 
